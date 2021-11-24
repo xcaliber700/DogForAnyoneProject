@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.floater.MainActivity">
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="8"
+        android:title="@string/settings"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_customerService"
+        android:orderInCategory="10"
+        android:title="@string/customer_support"
+        app:showAsAction="never"/>
+</menu>
