@@ -1,6 +1,7 @@
 package com.example.dogforanyone;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -9,19 +10,35 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
+    List<Dog> DogList = new ArrayList<Dog>();
+    TextView txtViewAdoptSummary;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +55,74 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 R.string.navigation_drawe_open, R.string.navigation_drawe_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        RecyclerView recyclerView = findViewById(R.id.recyclerID);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        ListAdapter adapter = new ListAdapter();
-        recyclerView.setAdapter(adapter);
+
+        //List view Code
+
+        DogList = ReadDogData();
+
+        ListView listViewItems = findViewById(R.id.listViewItems);
+        listViewItems.setAdapter(new DogAdapter(DogList));
+
+
+        listViewItems.setOnItemClickListener((AdapterView<?> adapterView, View view, int i, long l) -> {
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM-d-yyyy");
+            LocalDate dob = DogList.get(i).getDob();
+            String dobStrOutput = formatter.format(dob);
+            txtViewAdoptSummary.setText("Date of birth of "
+                    + DogList.get(i).getDogName() + " is " + dobStrOutput);
+
+        });
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private List<Dog> ReadDogData(){
+        List<Dog> DogList = new ArrayList<Dog>();
+
+        InputStream inputStream = getResources().openRawResource(R.raw.doginfo);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
+        try {
+            String csvLine;
+
+            //if you have a header line, you must read it first before you enter the loop
+            //for reading and parsing data lines
+
+            while((csvLine = reader.readLine()) != null) {
+                String[] eachDogRow = csvLine.split(",");
+                int id = Integer.parseInt(eachDogRow[0]);
+                String dogPicName = eachDogRow[1];
+                int dogDrawable = getResources().getIdentifier(dogPicName,
+                        "drawable",getPackageName()); //gets the enumerated id of the image
+
+                String dogBreed = eachDogRow[2];
+                String dogName = eachDogRow[3];
+                String dobStr = eachDogRow[4];
+
+                //single d => one digit or 2 digit date vs. dd refers to always two digits for date (day of the month)
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-MMM-yyyy");
+                LocalDate dob = LocalDate.parse(dobStr,formatter);
+
+                Dog eachDog = new Dog(id,dogBreed,dogName,dogDrawable,dob);
+                DogList.add(eachDog);
+            }
+
+        } catch (IOException ex) {
+            Log.d("FILEDEMO",ex.getMessage());
+        } catch (Exception ex){
+            Log.d("FILEDEMO",ex.getMessage());
+        } finally{
+            try {
+                inputStream.close();
+            } catch (IOException ex) {
+                Log.d("FILEDEMO",ex.getMessage());
+            }
+        }
+
+        return DogList;
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
