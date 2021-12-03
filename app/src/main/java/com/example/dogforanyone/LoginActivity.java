@@ -16,11 +16,15 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         btnSignup = findViewById(R.id.btn_link_signup);
         btnGuestContinue = findViewById(R.id.btn_link_Main);
+        btnLogin = findViewById(R.id.btn_login);
         btnSignup.setOnClickListener(v->{
             startActivity(new Intent(LoginActivity.this,SignupActivity.class));
         });
         btnGuestContinue.setOnClickListener(view->{
             startActivity(new Intent(LoginActivity.this,MainActivity.class));
+        });
+        btnLogin.setOnClickListener(v->{
+            //yet to be implemented
         });
     }
 }

@@ -52,8 +52,8 @@ public class DogAdapter extends BaseAdapter {
         TextView txtViewDogName = view.findViewById(R.id.txtViewName);
         TextView txtViewDogBreed= view.findViewById(R.id.txtViewBreed);
         TextView txtViewDOB = view.findViewById(R.id.txtViewDOB);
-
         ImageView imgViewDogPic = view.findViewById(R.id.imgViewDogPic);
+
         imgViewDogPic.setImageResource(DogsList.get(i).getDogPicDrawable()); //drawable id is set as the image resource
         txtViewId.setText(String.valueOf(DogsList.get(i).getId()));
         txtViewDogName.setText(DogsList.get(i).getDogName());

@@ -1,8 +1,9 @@
 package com.example.dogforanyone;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Dog {
+public class Dog implements Serializable {
     private int id;
     private String dogBreed;
     private String dogName;

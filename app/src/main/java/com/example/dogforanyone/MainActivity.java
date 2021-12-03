@@ -10,6 +10,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,6 +39,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
     List<Dog> DogList = new ArrayList<Dog>();
+    List<Owner> OwnerList = new ArrayList<Owner>();
     TextView txtViewAdoptSummary;
 
     @Override
@@ -59,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //List view Code
 
         DogList = ReadDogData();
+        OwnerList = ReadOwnerData();
 
         ListView listViewItems = findViewById(R.id.listViewItems);
         listViewItems.setAdapter(new DogAdapter(DogList));
@@ -66,13 +69,72 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         listViewItems.setOnItemClickListener((AdapterView<?> adapterView, View view, int i, long l) -> {
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM-d-yyyy");
-            LocalDate dob = DogList.get(i).getDob();
-            String dobStrOutput = formatter.format(dob);
-            txtViewAdoptSummary.setText("Date of birth of "
-                    + DogList.get(i).getDogName() + " is " + dobStrOutput);
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM-d-yyyy");
+//            LocalDate dob = DogList.get(i).getDob();
+//            String dobStrOutput = formatter.format(dob);
+//            txtViewAdoptSummary.setText("Date of birth of "
+//                    + DogList.get(i).getDogName() + " is " + dobStrOutput);
+            System.out.println("Enter clicking phase"+DogList.get(i).getDogBreed());
+            Dog clickedInfo = DogList.get(i);
+            Owner personInfo = new Owner();
+            for(Owner info:OwnerList){
+                if(info.getDogId() == clickedInfo.getId()){
+                    personInfo = info;
+                    break;
+                }
+            }
+
+            System.out.println("Enter clicking phase"+personInfo.getFullName());
+
+            Intent intent = new Intent(MainActivity.this,CompleteProfile.class);
+            intent.putExtra("dog",clickedInfo);
+            intent.putExtra("owner",personInfo);
+            startActivity(intent);
 
         });
+    }
+
+    private List<Owner> ReadOwnerData() {
+        List<Owner> ListOfDogOwners = new ArrayList<Owner>();
+
+        InputStream inputStream = getResources().openRawResource(R.raw.dogowner);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
+        try {
+            String csvLine;
+
+            //if you have a header line, you must read it first before you enter the loop
+            //for reading and parsing data lines
+
+            while((csvLine = reader.readLine()) != null) {
+                String[] eachRow = csvLine.split(",");
+                int id = Integer.parseInt(eachRow[0]);
+                String ownerPicName = eachRow[1];
+                int ownerDrawable = getResources().getIdentifier(ownerPicName,
+                        "drawable",getPackageName()); //gets the enumerated id of the image
+
+                String fullname = eachRow[2];
+                String phone = eachRow[3];
+                String loc = eachRow[4];
+                int dogId = Integer.parseInt(eachRow[5]);
+
+                Owner eachPerson = new Owner(id,fullname,ownerDrawable,phone,loc,dogId);
+                ListOfDogOwners.add(eachPerson);
+            }
+
+        } catch (IOException ex) {
+            Log.d("FILEException: ",ex.getMessage());
+        } catch (Exception ex){
+            Log.d("FILEException: ",ex.getMessage());
+        } finally{
+            try {
+                inputStream.close();
+            } catch (IOException ex) {
+                Log.d("FILEException: ",ex.getMessage());
+            }
+        }
+
+        return ListOfDogOwners;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -108,14 +170,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
         } catch (IOException ex) {
-            Log.d("FILEDEMO",ex.getMessage());
+            Log.d("FILEException: ",ex.getMessage());
         } catch (Exception ex){
-            Log.d("FILEDEMO",ex.getMessage());
+            Log.d("FILEException: ",ex.getMessage());
         } finally{
             try {
                 inputStream.close();
             } catch (IOException ex) {
-                Log.d("FILEDEMO",ex.getMessage());
+                Log.d("FILEException: ",ex.getMessage());
             }
         }
 
