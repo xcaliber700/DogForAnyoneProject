@@ -7,14 +7,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,9 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -69,11 +64,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         listViewItems.setOnItemClickListener((AdapterView<?> adapterView, View view, int i, long l) -> {
 
-//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM-d-yyyy");
-//            LocalDate dob = DogList.get(i).getDob();
-//            String dobStrOutput = formatter.format(dob);
-//            txtViewAdoptSummary.setText("Date of birth of "
-//                    + DogList.get(i).getDogName() + " is " + dobStrOutput);
             System.out.println("Enter clicking phase"+DogList.get(i).getDogBreed());
             Dog clickedInfo = DogList.get(i);
             Owner personInfo = new Owner();
@@ -86,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             System.out.println("Enter clicking phase"+personInfo.getFullName());
 
-            Intent intent = new Intent(MainActivity.this,CompleteProfile.class);
+            Intent intent = new Intent(MainActivity.this, CompleteProfileActivity.class);
             intent.putExtra("dog",clickedInfo);
             intent.putExtra("owner",personInfo);
             startActivity(intent);
@@ -196,8 +186,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-            case R.id.action_settings:
-                Toast.makeText(this, "Settings is clicked.", Toast.LENGTH_SHORT).show();
+            case R.id.action_customerService:
+                Toast.makeText(this, "We will call you in few minutes.", Toast.LENGTH_SHORT).show();
         }
         return true;
     }
@@ -216,6 +206,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
 
         switch (item.getItemId()){
+            case R.id.nav_login:
+                startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                break;
+            case R.id.nav_signup:
+                startActivity(new Intent(MainActivity.this,SignupActivity.class));
+                break;
+            case R.id.nav_service:
+                Toast.makeText(this, "We will call you in few minutes.", Toast.LENGTH_SHORT).show();
+                break;
         }
         return true;
     }

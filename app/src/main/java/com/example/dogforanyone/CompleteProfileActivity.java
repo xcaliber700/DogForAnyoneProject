@@ -3,14 +3,18 @@ package com.example.dogforanyone;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
+
 import java.time.format.DateTimeFormatter;
 
-public class CompleteProfile extends AppCompatActivity {
+public class CompleteProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +44,12 @@ public class CompleteProfile extends AppCompatActivity {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         dDOB.setText("DOB: "+formatter.format(dInfo.getDob()));
+        Button bookings = findViewById(R.id.buttonBooking);
+        bookings.setOnClickListener(v->{
+
+
+
+        });
     }
 
 }

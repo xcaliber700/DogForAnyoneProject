@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CompleteProfile">
+    tools:context=".CompleteProfileActivity">
 
     <ImageView
         android:id="@+id/imgViewOwner"
@@ -92,5 +92,14 @@
         android:text=""
         app:layout_constraintStart_toEndOf="@+id/imgViewdog"
         app:layout_constraintTop_toBottomOf="@+id/dogNameID" />
+    <Button
+        android:id="@+id/buttonBooking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="88dp"
+        android:text="@string/book_now"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

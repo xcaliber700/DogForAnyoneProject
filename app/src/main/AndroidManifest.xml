@@ -10,12 +10,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DogForAnyone">
         <activity
+            android:name=".BookingPageActivity"
+            android:exported="true" />
+        <activity
             android:name=".SignupActivity"
             android:exported="true" />
         <activity
             android:name=".LoginActivity"
             android:exported="true" />
         <activity
+            android:theme="@style/Theme.DogForAnyoneNoactionBar"
             android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
@@ -26,11 +30,11 @@
         </activity>
         <activity
             android:name=".MainActivity"
+            android:theme="@style/Theme.DogForAnyoneNoactionBar"
             android:exported="true" />
         <activity
-            android:name=".CompleteProfile"
+            android:name=".CompleteProfileActivity"
             android:exported="true" />
-
 
         <meta-data
             android:name="preloaded_fonts"
