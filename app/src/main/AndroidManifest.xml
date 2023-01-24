@@ -10,18 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DogForAnyone">
         <activity
-            android:name=".BookingPageActivity"
-            android:exported="true" />
-        <activity
             android:name=".SignupActivity"
             android:exported="true" />
         <activity
             android:name=".LoginActivity"
             android:exported="true" />
         <activity
-            android:theme="@style/Theme.DogForAnyoneNoactionBar"
             android:name=".SplashActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.DogForAnyoneNoactionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,8 +27,8 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:theme="@style/Theme.DogForAnyoneNoactionBar"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.DogForAnyoneNoactionBar" />
         <activity
             android:name=".CompleteProfileActivity"
             android:exported="true" />

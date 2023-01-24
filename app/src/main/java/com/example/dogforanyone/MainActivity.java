@@ -75,7 +75,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
             System.out.println("Enter clicking phase"+personInfo.getFullName());
-
             Intent intent = new Intent(MainActivity.this, CompleteProfileActivity.class);
             intent.putExtra("dog",clickedInfo);
             intent.putExtra("owner",personInfo);
